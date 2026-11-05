@@ -1,6 +1,7 @@
 import sys
 from lexer import tokenize
 from parser import Parser
+from engine import Database
 
 def split_unquoted_semicolon(text: str):
 
@@ -14,6 +15,7 @@ def split_unquoted_semicolon(text: str):
 
 def main():
     print("Database CLI (Variant 5). Для виходу введіть EXIT або натисніть Ctrl+C.")
+    db = Database()
     buffer = ""
 
     while True:
@@ -41,10 +43,10 @@ def main():
                         tokens = tokenize(full_command)
                         parser = Parser(tokens)
                         ast = parser.parse()
-                        print("\nУспішний парсинг! Отриманий AST:")
-                        print(f"  {ast}\n")
-                    except SyntaxError as e:
-                        print(f"\nПомилка синтаксису: {e}\n")
+                        result = db.command_act(ast)
+                        print(f"\n{result}\n")
+                    except (SyntaxError, ValueError) as e:
+                        print(f"\nПомилка: {e}\n")
 
         except (KeyboardInterrupt, EOFError):
             print("\nЗавершення роботи.")

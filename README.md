@@ -7,9 +7,10 @@
 ## 1. Структура проєкту
 
 * `main.py` — Головна точка входу, інтерфейс командного рядка (REPL) та обробка багаторядкового вводу.
-* `lexer.py` — Лексичний аналізатор (токенізатор).
-* `parser.py` — Синтаксичний аналізатор (парсер).
+* `lexer.py` — Лексичний аналізатор (токенізатор запросів).
+* `parser.py` — Синтаксичний аналізатор (побудова AST-дерева).
 * `ast_nodes.py` — Структури даних для команд (Abstract Syntax Tree / DTO).
+* `engine.py` — Движок бази даних (збереження даних у пам'яті, виконання JOIN, WHERE та генерація ASCII-таблиць).
 
 ---
 
@@ -28,6 +29,7 @@
 Створює нову таблицю з вказаними стовпцями. Для створення індексу додається прапорець `INDEXED`:
 ```sql
 CREATE owners (owner_id INDEXED, owner_name, owner_age);
+CREATE cats (cat_id INDEXED, cat_owner_id INDEXED, cat_name);
 
 ```
 
@@ -38,6 +40,8 @@ CREATE owners (owner_id INDEXED, owner_name, owner_age);
 ```sql
 INSERT INTO owners ("1", "Vasya", "30");
 INSERT owners ("2", "Petya", "25");
+INSERT cats ("10", "1", "Murzik");
+INSERT cats ("20", "1", "Pushok");
 
 ```
 
@@ -52,7 +56,7 @@ SELECT FROM owners LEFT_JOIN cats ON owner_id = cat_owner_id WHERE cat_name < "P
 
 ---
 
-## 3. Інструкція із запуску
+## 4. Інструкція із запуску
 
 ### Вимоги
 
