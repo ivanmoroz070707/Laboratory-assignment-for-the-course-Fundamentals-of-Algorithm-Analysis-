@@ -84,7 +84,7 @@ class Database:
         return self.format_table(result_columns, result_rows)
 
     def format_table(self, cols: List[str], rows: List[List[str]]) -> str:
-        """Повертає відформатовану ASCII-таблицю у вигляді рядка"""
+        
         if not cols:
             return ""
         
