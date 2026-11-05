@@ -45,6 +45,8 @@ class Database:
         result_rows = list(tab1.rows)
         
         if cmd.join_table:
+            if cmd.join_table not in self.tables:
+                raise ValueError(f"Таблиці для JOIN '{cmd.join_table}' не існує.")
             tab2 = self.tables[cmd.join_table]
             if cmd.t1_column not in tab1.columns:
                 raise ValueError(f"Стовпець '{cmd.t1_column}' відсутній у таблиці '{tab1.name}'")
